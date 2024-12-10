@@ -2,7 +2,7 @@ import kotlin.math.abs
 
 fun main() {
 
-    fun isSafe(levels: List<String>): Boolean {
+    fun part1(levels: List<String>): Boolean {
         var isIncrement: Boolean? = null
         levels.windowed(2).map { levelPair ->
             val difference = (levelPair[0].toInt() - levelPair[1].toInt())
@@ -25,14 +25,32 @@ fun main() {
         return true
     }
 
-    var safeCount = 0
+    fun part2(levels:List<String>):Boolean{
+        if(!part1(levels)){
+            levels.forEachIndexed{ index, _ ->
+                val tempList = levels.toMutableList()
+                tempList.removeAt(index)
+                if(part1(tempList))
+                    return true
+            }
+            return false
+        }
+        return true
+    }
+
+    var part1Result = 0
+    var part2Result = 0
     readInput("Day02").forEach { line ->
         val levels = line.split(" ")
-        if (isSafe(levels)) {
-            safeCount++
+        if (part1(levels)) {
+            part1Result++
+        }
+        if(part2(levels)){
+            part2Result++
         }
     }
 
-    safeCount.println()
+    "part1 result is $part1Result".println()
+    "part2 result is $part2Result".println()
 
 }
